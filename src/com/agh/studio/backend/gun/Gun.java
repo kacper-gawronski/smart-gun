@@ -9,9 +9,9 @@ public class Gun {
     private Boolean isFired;
     private ZonedDateTime currentTime;
 
-    public Gun(Integer officerId, Integer gunId) {
-        this.officerId = officerId;
+    public Gun(Integer gunId, Integer officerId) {
         this.gunId = gunId;
+        this.officerId = officerId;
         this.isFired = false;
         this.currentTime = ZonedDateTime.now();
     }
@@ -50,9 +50,9 @@ public class Gun {
 
     @Override
     public String toString() {
-        return "GunId: " + gunId +
-                "\nOfficerId: " + officerId +
-                "\nisFired: " + isFired +
-                "\nTimestamp: " + currentTime.toLocalDateTime();
+        return "GunId: " + getGunId() +
+                "\nOfficerId: " + getOfficerId() +
+                "\nisFired: " + getFired() +
+                "\nTimestamp: " + getCurrentTime().toLocalDateTime();
     }
 }

@@ -22,7 +22,7 @@ public class GunRequest {
 
     @Override
     public String toString() {
-        return "Fired: " + isFired +
-               "\nTime: " + currentTimestamp.toLocalDateTime();
+        return "Fired: " + getFired() +
+               "\nTime: " + getCurrentTimestamp().toLocalDateTime();
     }
 }
