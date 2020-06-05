@@ -54,7 +54,8 @@ public class Smartwatch {
                 getGun().getGunId(),
                 getNavigation().getVehicleId(),
                 gunRequest.getFired(),
-                navigationRequest.getLocation()
+                navigationRequest.getLocation(),
+                getStatus()
         );
 
     }

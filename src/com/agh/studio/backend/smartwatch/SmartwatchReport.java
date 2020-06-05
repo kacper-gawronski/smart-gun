@@ -13,9 +13,10 @@ public class SmartwatchReport {
     private Integer vehicleId;
     private Boolean isGunFired;
     private Location location;
+    private PatrolStatus status;
 
     public SmartwatchReport(ZonedDateTime reportTime, Integer smartwatchId, Integer officerId,
-                            Integer gunId, Integer vehicleId, Boolean isGunFired, Location location) {
+                            Integer gunId, Integer vehicleId, Boolean isGunFired, Location location, PatrolStatus status) {
         this.reportTime = reportTime;
         this.smartwatchId = smartwatchId;
         this.officerId = officerId;
@@ -23,6 +24,7 @@ public class SmartwatchReport {
         this.vehicleId = vehicleId;
         this.isGunFired = isGunFired;
         this.location = location;
+        this.status = status;
     }
 
     public ZonedDateTime getReportTime() {
@@ -53,6 +55,10 @@ public class SmartwatchReport {
         return location;
     }
 
+    public PatrolStatus getStatus() {
+        return status;
+    }
+
     @Override
     public String toString() {
         return "SmartwatchId: " + getSmartwatchId() +
@@ -61,7 +67,8 @@ public class SmartwatchReport {
                 "\nVehicleId: " + getVehicleId() +
                 "\nReportTime: " + getReportTime().toLocalDateTime() +
                 "\nisGunFired: " + getGunFired() +
-                "\nLocation: " + getLocation();
+                "\nLocation: " + getLocation() +
+                "\nPatrolStatus: " + getStatus();
     }
 
 }
