@@ -1,12 +1,10 @@
 package com.agh.studio.backend.navigation;
 
-import java.time.ZonedDateTime;
-
 public class NavigationRequest {
 
     private Location location;
 
-    public NavigationRequest(Location location, ZonedDateTime currentTimestamp) {
+    public NavigationRequest(Location location) {
         this.location = location;
     }
 

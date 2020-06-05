@@ -28,7 +28,7 @@ public class Navigation {
     }
 
     public NavigationRequest sendUpdate() {
-        return new NavigationRequest(currentLocation, ZonedDateTime.now());
+        return new NavigationRequest(currentLocation);
     }
 
     // GETTERS and SETTERS
