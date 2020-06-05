@@ -13,7 +13,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return latitude + "," + longitude;
+        return "Location: " + latitude + ", " + longitude;
     }
 
     public double getLatitude() {

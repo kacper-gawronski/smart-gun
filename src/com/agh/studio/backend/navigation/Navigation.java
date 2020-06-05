@@ -1,7 +1,5 @@
 package com.agh.studio.backend.navigation;
 
-import java.util.Date;
-
 public class Navigation {
 
     Location currentLocation;
@@ -15,11 +13,7 @@ public class Navigation {
     Integer distance;
     String distanceText;
 
-    // możliwe że to pole nie będzie tutaj potrzebne (po analizie w razie potrzeby - usunąć)
-    Boolean isGoingToIntervention;
-
     public Navigation(Location location) {
-        this.isGoingToIntervention = false;
         this.currentLocation = location;
         this.destinationLocation = location;
         this.duration = 0;
@@ -78,11 +72,4 @@ public class Navigation {
         this.distanceText = distanceText;
     }
 
-    public Boolean getGoingToIntervention() {
-        return isGoingToIntervention;
-    }
-
-    public void setGoingToIntervention(Boolean goingToIntervention) {
-        isGoingToIntervention = goingToIntervention;
-    }
 }
