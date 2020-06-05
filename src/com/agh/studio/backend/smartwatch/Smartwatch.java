@@ -2,6 +2,7 @@ package com.agh.studio.backend.smartwatch;
 
 import com.agh.studio.backend.gun.Gun;
 import com.agh.studio.backend.gun.GunRequest;
+import com.agh.studio.backend.navigation.Location;
 import com.agh.studio.backend.navigation.Navigation;
 import com.agh.studio.backend.navigation.NavigationRequest;
 
@@ -47,8 +48,13 @@ public class Smartwatch {
         GunRequest gunRequest = getGun().sendUpdate();
         NavigationRequest navigationRequest = getNavigation().sendUpdate();
 
+        if (gunRequest.getFired()) {
+            this.status = PatrolStatus.FIRE_INTERVENTION;
+        }
+
         return new SmartwatchReport(
                 gunRequest.getCurrentTimestamp(),
+                this,
                 getSmartwatchId(),
                 getOfficerId(),
                 getGun().getGunId(),
@@ -57,7 +63,12 @@ public class Smartwatch {
                 navigationRequest.getLocation(),
                 getStatus()
         );
+    }
 
+    public void updateParameters(PatrolStatus patrolStatus, Location destinationLocation) {
+        this.status = patrolStatus;
+        this.navigation.setDestinationLocation(destinationLocation);
+        // inne parametry, które będziemy chcieli przekazać
     }
 
     @Override

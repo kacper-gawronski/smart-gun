@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 public class SmartwatchReport {
 
     private ZonedDateTime reportTime;
+    private Smartwatch smartwatch;
     private Integer smartwatchId;
     private Integer officerId;
     private Integer gunId;
@@ -15,9 +16,10 @@ public class SmartwatchReport {
     private Location location;
     private PatrolStatus status;
 
-    public SmartwatchReport(ZonedDateTime reportTime, Integer smartwatchId, Integer officerId,
+    public SmartwatchReport(ZonedDateTime reportTime, Smartwatch smartwatch, Integer smartwatchId, Integer officerId,
                             Integer gunId, Integer vehicleId, Boolean isGunFired, Location location, PatrolStatus status) {
         this.reportTime = reportTime;
+        this.smartwatch = smartwatch;
         this.smartwatchId = smartwatchId;
         this.officerId = officerId;
         this.gunId = gunId;
@@ -29,6 +31,10 @@ public class SmartwatchReport {
 
     public ZonedDateTime getReportTime() {
         return reportTime;
+    }
+
+    public Smartwatch getSmartwatch() {
+        return smartwatch;
     }
 
     public Integer getSmartwatchId() {

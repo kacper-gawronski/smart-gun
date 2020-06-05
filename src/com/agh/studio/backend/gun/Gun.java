@@ -32,6 +32,10 @@ public class Gun {
         return isFired;
     }
 
+    public void setFired(Boolean fired) {
+        isFired = fired;
+    }
+
     public void setFired() {
         isFired = true;
     }
