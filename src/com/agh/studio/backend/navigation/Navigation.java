@@ -1,75 +1,63 @@
 package com.agh.studio.backend.navigation;
 
+import java.time.ZonedDateTime;
+
 public class Navigation {
 
-    Location currentLocation;
-    Location destinationLocation;
+    private Integer vehicleId;
+
+    private Location currentLocation;
+    private Location destinationLocation;
 
     // duration time in seconds from current location to destination location
-    Integer duration;
-    String durationText;
+    private Integer duration;
+    private String durationText;
 
     // distance in meters from current location to destination location
-    Integer distance;
-    String distanceText;
+    private Integer distance;
+    private String distanceText;
 
-    public Navigation(Location location) {
+    public Navigation(Integer vehicleId, Location location) {
+        this.vehicleId = vehicleId;
         this.currentLocation = location;
-        this.destinationLocation = location;
+        this.destinationLocation = null;
         this.duration = 0;
         this.durationText = "";
         this.distance = 0;
         this.distanceText = "";
     }
 
+    public NavigationRequest sendUpdate() {
+        return new NavigationRequest(currentLocation, ZonedDateTime.now());
+    }
+
     // GETTERS and SETTERS
+
+    public Integer getVehicleId() {
+        return vehicleId;
+    }
 
     public Location getCurrentLocation() {
         return currentLocation;
-    }
-
-    public void setCurrentLocation(Location currentLocation) {
-        this.currentLocation = currentLocation;
     }
 
     public Location getDestinationLocation() {
         return destinationLocation;
     }
 
-    public void setDestinationLocation(Location destinationLocation) {
-        this.destinationLocation = destinationLocation;
-    }
-
     public Integer getDuration() {
         return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
     }
 
     public String getDurationText() {
         return durationText;
     }
 
-    public void setDurationText(String durationText) {
-        this.durationText = durationText;
-    }
-
     public Integer getDistance() {
         return distance;
-    }
-
-    public void setDistance(Integer distance) {
-        this.distance = distance;
     }
 
     public String getDistanceText() {
         return distanceText;
     }
-
-    public void setDistanceText(String distanceText) {
-        this.distanceText = distanceText;
-    }
-
 }

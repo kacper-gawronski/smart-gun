@@ -1,5 +1,7 @@
 package com.agh.studio.backend.smartwatch;
 
+import com.agh.studio.backend.navigation.Location;
+
 import java.time.ZonedDateTime;
 
 public class SmartwatchReport {
@@ -8,15 +10,19 @@ public class SmartwatchReport {
     private Integer smartwatchId;
     private Integer officerId;
     private Integer gunId;
+    private Integer vehicleId;
     private Boolean isGunFired;
+    private Location location;
 
-    public SmartwatchReport(ZonedDateTime reportTime, Integer smartwatchId,
-                            Integer officerId, Integer gunId, Boolean isGunFired) {
+    public SmartwatchReport(ZonedDateTime reportTime, Integer smartwatchId, Integer officerId,
+                            Integer gunId, Integer vehicleId, Boolean isGunFired, Location location) {
         this.reportTime = reportTime;
         this.smartwatchId = smartwatchId;
         this.officerId = officerId;
         this.gunId = gunId;
+        this.vehicleId = vehicleId;
         this.isGunFired = isGunFired;
+        this.location = location;
     }
 
     public ZonedDateTime getReportTime() {
@@ -35,8 +41,16 @@ public class SmartwatchReport {
         return gunId;
     }
 
+    public Integer getVehicleId() {
+        return vehicleId;
+    }
+
     public Boolean getGunFired() {
         return isGunFired;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     @Override
@@ -44,8 +58,10 @@ public class SmartwatchReport {
         return "SmartwatchId: " + getSmartwatchId() +
                 "\nOfficerId: " + getOfficerId() +
                 "\nGunId: " + getGunId() +
+                "\nVehicleId: " + getVehicleId() +
                 "\nReportTime: " + getReportTime().toLocalDateTime() +
-                "\nisGunFired: " + getGunFired();
+                "\nisGunFired: " + getGunFired() +
+                "\nLocation: " + getLocation();
     }
 
 }

@@ -1,19 +1,15 @@
 package com.agh.studio.backend.gun;
 
-import java.time.ZonedDateTime;
-
 public class Gun {
 
     private Integer gunId;
     private Integer officerId;
     private Boolean isFired;
-    private ZonedDateTime currentTime;
 
     public Gun(Integer gunId, Integer officerId) {
         this.gunId = gunId;
         this.officerId = officerId;
         this.isFired = false;
-        this.currentTime = ZonedDateTime.now();
     }
 
     public Integer getGunId() {
@@ -40,19 +36,14 @@ public class Gun {
         isFired = true;
     }
 
-    public ZonedDateTime getCurrentTime() {
-        return currentTime;
-    }
-
     public GunRequest sendUpdate() {
-        return new GunRequest(isFired, currentTime);
+        return new GunRequest(isFired);
     }
 
     @Override
     public String toString() {
         return "GunId: " + getGunId() +
                 "\nOfficerId: " + getOfficerId() +
-                "\nisFired: " + getFired() +
-                "\nTimestamp: " + getCurrentTime().toLocalDateTime();
+                "\nisFired: " + getFired();
     }
 }

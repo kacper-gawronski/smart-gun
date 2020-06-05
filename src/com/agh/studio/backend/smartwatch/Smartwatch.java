@@ -3,6 +3,7 @@ package com.agh.studio.backend.smartwatch;
 import com.agh.studio.backend.gun.Gun;
 import com.agh.studio.backend.gun.GunRequest;
 import com.agh.studio.backend.navigation.Navigation;
+import com.agh.studio.backend.navigation.NavigationRequest;
 
 public class Smartwatch {
 
@@ -44,13 +45,16 @@ public class Smartwatch {
     public SmartwatchReport sendUpdate() {
 
         GunRequest gunRequest = getGun().sendUpdate();
+        NavigationRequest navigationRequest = getNavigation().sendUpdate();
 
         return new SmartwatchReport(
                 gunRequest.getCurrentTimestamp(),
                 getSmartwatchId(),
                 getOfficerId(),
                 getGun().getGunId(),
-                gunRequest.getFired()
+                getNavigation().getVehicleId(),
+                gunRequest.getFired(),
+                navigationRequest.getLocation()
         );
 
     }
