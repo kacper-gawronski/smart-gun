@@ -7,9 +7,9 @@ public class GunRequest {
     private Boolean isFired;
     private ZonedDateTime currentTimestamp;
 
-    public GunRequest(Boolean isFired, ZonedDateTime currentTimestamp) {
+    public GunRequest(Boolean isFired) {
         this.isFired = isFired;
-        this.currentTimestamp = currentTimestamp;
+        this.currentTimestamp = ZonedDateTime.now();
     }
 
     public Boolean getFired() {
