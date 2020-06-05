@@ -15,10 +15,10 @@ public class SignalDatabase {
         tmpSignalList = new ArrayList<>();
     }
 
-    public SignalRequest sendSignals() {
-        SignalRequest signalRequest = new SignalRequest(tmpSignalList);
+    public List<SmartwatchReport> sendSignals() {
+        List<SmartwatchReport> smartwatchReportList = tmpSignalList;
         tmpSignalList.clear();
-        return signalRequest;
+        return smartwatchReportList;
     }
 
 

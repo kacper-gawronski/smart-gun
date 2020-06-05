@@ -2,7 +2,6 @@ package com.agh.studio.backend.central;
 
 import com.agh.studio.backend.emergency.AmbulanceCenter;
 import com.agh.studio.backend.signalstorage.SignalDatabase;
-import com.agh.studio.backend.signalstorage.SignalRequest;
 import com.agh.studio.backend.smartwatch.PatrolStatus;
 import com.agh.studio.backend.smartwatch.Smartwatch;
 import com.agh.studio.backend.smartwatch.SmartwatchReport;
@@ -28,8 +27,8 @@ public class MainAgent {
     }
 
     public void receiveSignals() {
-        SignalRequest signalRequest = signalDatabase.sendSignals();
-        for (SmartwatchReport smartwatchReport : signalRequest.getSmartwatchReportList()) {
+        List<SmartwatchReport> smartwatchReportList = signalDatabase.sendSignals();
+        for (SmartwatchReport smartwatchReport : smartwatchReportList) {
             statusMap.put(smartwatchReport.getSmartwatchId(), smartwatchReport.getStatus());
         }
     }
