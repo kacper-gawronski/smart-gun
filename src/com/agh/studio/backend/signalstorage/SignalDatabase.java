@@ -31,5 +31,11 @@ public class SignalDatabase {
         return smartwatchReportList;
     }
 
+    public List<SmartwatchReport> getSignalList() {
+        return signalList;
+    }
 
+    public List<SmartwatchReport> getTmpSignalList() {
+        return tmpSignalList;
+    }
 }

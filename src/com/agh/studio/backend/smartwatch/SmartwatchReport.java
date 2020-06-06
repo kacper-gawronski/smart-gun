@@ -67,14 +67,14 @@ public class SmartwatchReport {
 
     @Override
     public String toString() {
-        return "SmartwatchId: " + getSmartwatchId() +
+        return "\nSmartwatchId: " + getSmartwatchId() +
                 "\nOfficerId: " + getOfficerId() +
                 "\nGunId: " + getGunId() +
                 "\nVehicleId: " + getVehicleId() +
                 "\nReportTime: " + getReportTime().toLocalDateTime() +
                 "\nisGunFired: " + getGunFired() +
                 "\nLocation: " + getLocation() +
-                "\nPatrolStatus: " + getStatus();
+                "\nPatrolStatus: " + getStatus() + "\n";
     }
 
 }
