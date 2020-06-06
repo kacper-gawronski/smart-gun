@@ -17,8 +17,9 @@ public class SignalDatabase {
     }
 
     public void receiveDataFromSmartwatches(List<Smartwatch> smartwatchList) {
+        SmartwatchReport smartwatchReport;
         for (Smartwatch smartwatch : smartwatchList) {
-            SmartwatchReport smartwatchReport = smartwatch.sendUpdate();
+            smartwatchReport = smartwatch.sendUpdate();
             signalList.add(smartwatchReport);
             tmpSignalList.add(smartwatchReport);
         }

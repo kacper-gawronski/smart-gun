@@ -48,15 +48,18 @@ public class MainAgent {
         // zaimplementować
     }
 
-    public void sendParametersToSmartwatch(Smartwatch smartwatch, PatrolStatus patrolStatus, Location location) {
-        smartwatch.updateParameters(patrolStatus, location);
+    public void sendParametersToSmartwatch(Smartwatch smartwatch, PatrolStatus patrolStatus, Location destinationLocation) {
+        smartwatch.updateParameters(patrolStatus, destinationLocation);
         // inne parametry, które będziemy chcieli przekazać
     }
 
+    // ta funkcja może być wgl nie potrzebna i wystarczy ta wyżej z odpowiednimi parametrami
     public void sendGoingToInterventionToSmartwatch(Smartwatch smartwatch, Location interventionLocation) {
         smartwatch.updateParameters(PatrolStatus.GOING_TO_INTERVENTION, interventionLocation);
     }
 
+    // ta fukncja może być wgl nie potrzebna, ponieważ po interwencji patrol sam powinien zmienić status na OBSERVER
+    // lub funkcja może zostać ale wtedy Patrol musiałby przesłać jakieś info o zakończeniu interwencji więc najlepiej zostawić zmianę statusu w samym Patrolu(SW)
     public void sendEndOfInterventionToSmartwatch(Smartwatch smartwatch) {
         smartwatch.updateParameters(PatrolStatus.OBSERVER, null);
         smartwatch.getGun().setFired(false);
