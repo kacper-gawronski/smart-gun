@@ -45,6 +45,10 @@ public class Navigation {
         return destinationLocation;
     }
 
+    public void setDestinationLocation(Location destinationLocation) {
+        this.destinationLocation = destinationLocation;
+    }
+
     public Integer getDuration() {
         return duration;
     }
