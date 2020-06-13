@@ -43,16 +43,8 @@ public class Main {
             MC.receiveAndProcessSignals();
         }
 
-
-
-
-        /*
         System.out.println(smartwatch1.sendUpdate().toString());
         gun1.setFired();
         System.out.println();
-
-        System.out.println(smartwatch1.sendUpdate().toString());
-         */
-
     }
 }
