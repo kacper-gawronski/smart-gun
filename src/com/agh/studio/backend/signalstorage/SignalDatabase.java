@@ -30,7 +30,7 @@ public class SignalDatabase {
 
     public List<SmartwatchReport> sendSignals() {
 
-        List<SmartwatchReport> smartwatchReportList = tmpSignalList;
+        List<SmartwatchReport> smartwatchReportList = new ArrayList<>(tmpSignalList);
         tmpSignalList.clear();
 
         return smartwatchReportList;

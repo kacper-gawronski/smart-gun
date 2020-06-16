@@ -7,10 +7,7 @@ import com.agh.studio.backend.smartwatch.PatrolStatus;
 import com.agh.studio.backend.smartwatch.Smartwatch;
 import com.agh.studio.backend.smartwatch.SmartwatchReport;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MainAgent {
@@ -35,76 +32,49 @@ public class MainAgent {
     public void receiveAndProcessSignals() {
         List<SmartwatchReport> smartwatchReportList = signalDatabase.sendSignals();
 
+        Smartwatch smartwatchForHelp = null;
+        List<Smartwatch> availableSmartwatches = new ArrayList<>();
+
+        int helpers = 0;
+
         for (SmartwatchReport smartwatchReport : smartwatchReportList) {
-            if (smartwatchReport.getStatus() == PatrolStatus.FIRE_INTERVENTION)
-                sendPatrolsToFireIntervention(smartwatchReport.getSmartwatch());
-            else if (smartwatchReport.getStatus() == PatrolStatus.ROUTINE_INTERVENTION)
-                sendPatrolsToRoutineIntervention(smartwatchReport.getSmartwatch());
-            else if (smartwatchReport.getStatus() == PatrolStatus.PURSUIT)
-                sendPatrolsToPursuit(smartwatchReport.getSmartwatch());
-        }
-    }
+            Smartwatch sm = smartwatchReport.getSmartwatch();
 
-    public void sendPatrolsToFireIntervention(Smartwatch smartwatchInNeedOfHelp) {
+            if ( (sm.getStatus() == PatrolStatus.FIRE_INTERVENTION) || (sm.getStatus() == PatrolStatus.PURSUIT) ) {
+                smartwatchForHelp = sm;
 
-        Location destination = smartwatchInNeedOfHelp.getNavigation().getCurrentLocation();
+                helpers = headQuarter.howManyHelp(smartwatchReport);
 
-        Set<Smartwatch> patrolsToBeSent = chooseTheClosestPatrols(destination, 3).keySet();
-
-        for (Smartwatch smartwatch : patrolsToBeSent) {
-            sendGoingToInterventionToSmartwatch(smartwatch, destination);
+            } else if ( (sm.getStatus() == PatrolStatus.OBSERVER) ||
+                        (sm.getStatus() == PatrolStatus.ROUTINE_INTERVENTION) ){
+                availableSmartwatches.add(sm);
+            }
         }
 
-    }
+        if (smartwatchForHelp != null) {
 
-    public void sendPatrolsToRoutineIntervention(Smartwatch smartwatchInNeedOfHelp) {
+            Location destination = smartwatchForHelp.getNavigation().getCurrentLocation();
 
-        Location destination = smartwatchInNeedOfHelp.getNavigation().getCurrentLocation();
+            Set<Smartwatch> patrolsToBeSent =
+                    chooseTheClosestPatrols(availableSmartwatches, destination, helpers).keySet();
 
-        Set<Smartwatch> patrolsToBeSent = chooseTheClosestPatrols(destination, 1).keySet();
+            for (Smartwatch smartwatch : patrolsToBeSent) {
+                setGoingToIntervention(smartwatch, destination);
+            }
 
-        for (Smartwatch smartwatch : patrolsToBeSent) {
-            sendGoingToInterventionToSmartwatch(smartwatch, destination);
         }
 
     }
 
-    public void sendPatrolsToPursuit(Smartwatch smartwatchInNeedOfHelp) {
-
-        Location destination = smartwatchInNeedOfHelp.getNavigation().getCurrentLocation();
-
-        Set<Smartwatch> patrolsToBeSent = chooseTheClosestPatrols(destination, 4).keySet();
-
-        for (Smartwatch smartwatch : patrolsToBeSent) {
-            sendGoingToInterventionToSmartwatch(smartwatch, destination);
-        }
-
-    }
-
-    public void sendParametersToSmartwatch(Smartwatch smartwatch, PatrolStatus patrolStatus, Location destinationLocation) {
-        smartwatch.updateParameters(patrolStatus, destinationLocation);
-        // inne parametry, które będziemy chcieli przekazać
-    }
-
-    // ta funkcja może być wgl nie potrzebna i wystarczy ta wyżej z odpowiednimi parametrami
-    public void sendGoingToInterventionToSmartwatch(Smartwatch smartwatch, Location interventionLocation) {
+    private void setGoingToIntervention(Smartwatch smartwatch, Location interventionLocation) {
         smartwatch.updateParameters(PatrolStatus.GOING_TO_INTERVENTION, interventionLocation);
     }
 
-    // ta fukncja może być wgl nie potrzebna, ponieważ po interwencji patrol sam powinien zmienić status na OBSERVER
-    // lub funkcja może zostać ale wtedy Patrol musiałby przesłać jakieś info o zakończeniu interwencji więc najlepiej zostawić zmianę statusu w samym Patrolu(SW)
-    public void sendEndOfInterventionToSmartwatch(Smartwatch smartwatch) {
-        smartwatch.updateParameters(PatrolStatus.OBSERVER, null);
-        smartwatch.getGun().setFired(false);
-        // inne parametry, które będziemy chcieli przekazać
-    }
-
-
-    private Map<Smartwatch, Double> chooseTheClosestPatrols(Location patrolInNeed, int numberOfHelpers) {
+    private Map<Smartwatch, Double> chooseTheClosestPatrols(List<Smartwatch> smartwatches, Location patrolInNeed, int numberOfHelpers) {
 
         Map<Smartwatch, Double> patrolHelpers = new HashMap<>();
 
-        for (Smartwatch smartwatch : smartwatchList) {
+        for (Smartwatch smartwatch : smartwatches) {
             double distance = headQuarter.calculateDistanceBetween(patrolInNeed, smartwatch.getNavigation().getCurrentLocation());
             patrolHelpers.put(smartwatch, distance);
         }
@@ -115,6 +85,14 @@ public class MainAgent {
                 .sorted(Map.Entry.comparingByValue())
                 .limit(numberOfHelpers)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, HashMap::new));
+    }
+
+    // ta fukncja może być wgl nie potrzebna, ponieważ po interwencji patrol sam powinien zmienić status na OBSERVER
+    // lub funkcja może zostać ale wtedy Patrol musiałby przesłać jakieś info o zakończeniu interwencji więc najlepiej zostawić zmianę statusu w samym Patrolu(SW)
+    public void sendEndOfInterventionToSmartwatch(Smartwatch smartwatch) {
+        smartwatch.updateParameters(PatrolStatus.OBSERVER, null);
+        smartwatch.getGun().setFired(false);
+        // inne parametry, które będziemy chcieli przekazać
     }
 
 }

@@ -49,8 +49,8 @@ public class ReportGenerator {
                             String.valueOf(swReport.getVehicleId()),
                             String.valueOf(swReport.getGunFired()),
                             String.valueOf(swReport.getLocation().getLatitude()),
-                            String.valueOf(swReport.getLocation().getLongitude())
-                            //String.valueOf(swReport.getPatrolStatus()) }
+                            String.valueOf(swReport.getLocation().getLongitude()),
+                            String.valueOf(swReport.getStatus())
         };
 
     }

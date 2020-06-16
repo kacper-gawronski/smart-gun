@@ -1,6 +1,8 @@
 package com.agh.studio.backend.headquarter;
 
 import com.agh.studio.backend.navigation.Location;
+import com.agh.studio.backend.smartwatch.PatrolStatus;
+import com.agh.studio.backend.smartwatch.Smartwatch;
 import com.agh.studio.backend.smartwatch.SmartwatchReport;
 
 public class HeadQuarter {
@@ -31,10 +33,27 @@ public class HeadQuarter {
         return (c * earthRadius);
     }
 
-    public Boolean isDay(SmartwatchReport smartwatchReport) {
+    public int howManyHelp(SmartwatchReport smartwatchReport) {
+
+        int helpers = 0;
+
+        if (smartwatchReport.getStatus() == PatrolStatus.FIRE_INTERVENTION) {
+            helpers = 2;
+        } else if (smartwatchReport.getStatus() == PatrolStatus.PURSUIT) {
+            helpers = 3;
+        }
+
+        if (!isDay(smartwatchReport)) {
+            return ++helpers;
+        }
+
+        return helpers;
+    }
+
+    private Boolean isDay(SmartwatchReport smartwatchReport) {
         int hour = smartwatchReport.getReportTime().getHour();
 
-        return (hour <= 6 || hour >= 22);
+        return (hour >= 6 && hour <= 22);
     }
 
 }

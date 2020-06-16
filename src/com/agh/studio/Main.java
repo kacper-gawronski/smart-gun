@@ -27,9 +27,9 @@ public class Main {
         HeadQuarter headQuarter = new HeadQuarter();
         MainAgent MC = new MainAgent(headQuarter, signalDatabase, smartwatchList);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 5; j++) {
-                if (i==1 && j==3) {
+                if (i == 1 && j == 3) {
                     smartwatch1.getGun().setFired();
                 }
                 MC.collectSignals();
@@ -44,8 +44,5 @@ public class Main {
             MC.receiveAndProcessSignals();
         }
 
-        System.out.println(smartwatch1.sendUpdate().toString());
-        gun1.setFired();
-        System.out.println();
     }
 }
