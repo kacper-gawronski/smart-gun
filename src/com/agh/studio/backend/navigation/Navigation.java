@@ -31,6 +31,10 @@ public class Navigation {
         return new NavigationRequest(currentLocation);
     }
 
+    public void updateCurrentLocation(double latitude, double longitude) {
+        this.currentLocation = new Location(latitude, longitude);
+    }
+
     // GETTERS and SETTERS
 
     public Integer getVehicleId() {

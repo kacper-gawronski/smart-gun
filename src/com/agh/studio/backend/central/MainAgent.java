@@ -62,6 +62,11 @@ public class MainAgent {
                 setGoingToIntervention(smartwatch, destination);
             }
 
+            if (smartwatchForHelp.getStatus() == PatrolStatus.FIRE_INTERVENTION)
+                smartwatchForHelp.updateParameters(PatrolStatus.FIRE_INTERVENTION_WITH_SUPPORT, null);
+            else if (smartwatchForHelp.getStatus() == PatrolStatus.PURSUIT)
+                smartwatchForHelp.updateParameters(PatrolStatus.PURSUIT_WITH_SUPPORT, null);
+
         }
 
     }

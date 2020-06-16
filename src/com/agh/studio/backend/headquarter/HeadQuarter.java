@@ -11,6 +11,8 @@ public class HeadQuarter {
     // początkową lokalizacje (np. komenda wojewódzka Policji w Krakowie)
     public static final Location headQuarterLocation = new Location(50.067258, 19.979021);
 
+    public static final int updateMilliseconds = 100;
+
     // basic version - computing distance in straight line
     public double calculateDistanceBetween(Location objective, Location support) {
 
