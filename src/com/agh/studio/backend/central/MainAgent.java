@@ -1,20 +1,28 @@
 package com.agh.studio.backend.central;
 
+import com.agh.studio.backend.headquarter.HeadQuarter;
 import com.agh.studio.backend.navigation.Location;
 import com.agh.studio.backend.signalstorage.SignalDatabase;
 import com.agh.studio.backend.smartwatch.PatrolStatus;
 import com.agh.studio.backend.smartwatch.Smartwatch;
 import com.agh.studio.backend.smartwatch.SmartwatchReport;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class MainAgent {
+
+    private HeadQuarter headQuarter;
 
     private SignalDatabase signalDatabase;
 
     private List<Smartwatch> smartwatchList;
 
-    public MainAgent(SignalDatabase signalDatabase, List<Smartwatch> smartwatchList) {
+    public MainAgent(HeadQuarter headQuarter, SignalDatabase signalDatabase, List<Smartwatch> smartwatchList) {
+        this.headQuarter = headQuarter;
         this.signalDatabase = signalDatabase;
         this.smartwatchList = smartwatchList;
     }
@@ -26,26 +34,51 @@ public class MainAgent {
 
     public void receiveAndProcessSignals() {
         List<SmartwatchReport> smartwatchReportList = signalDatabase.sendSignals();
+
         for (SmartwatchReport smartwatchReport : smartwatchReportList) {
             if (smartwatchReport.getStatus() == PatrolStatus.FIRE_INTERVENTION)
-                chooseAndSendPatrolsToFireIntervention(smartwatchReport.getSmartwatch());
+                sendPatrolsToFireIntervention(smartwatchReport.getSmartwatch());
             else if (smartwatchReport.getStatus() == PatrolStatus.ROUTINE_INTERVENTION)
-                chooseAndSendPatrolsToRoutineIntervention(smartwatchReport.getSmartwatch());
+                sendPatrolsToRoutineIntervention(smartwatchReport.getSmartwatch());
             else if (smartwatchReport.getStatus() == PatrolStatus.PURSUIT)
-                chooseAndSendPatrolsToPursuit(smartwatchReport.getSmartwatch());
+                sendPatrolsToPursuit(smartwatchReport.getSmartwatch());
         }
     }
 
-    public void chooseAndSendPatrolsToFireIntervention(Smartwatch smartwatchInNeedOfHelp) {
-        // zaimplementować
+    public void sendPatrolsToFireIntervention(Smartwatch smartwatchInNeedOfHelp) {
+
+        Location destination = smartwatchInNeedOfHelp.getNavigation().getCurrentLocation();
+
+        Set<Smartwatch> patrolsToBeSent = chooseTheClosestPatrols(destination, 3).keySet();
+
+        for (Smartwatch smartwatch : patrolsToBeSent) {
+            sendGoingToInterventionToSmartwatch(smartwatch, destination);
+        }
+
     }
 
-    public void chooseAndSendPatrolsToRoutineIntervention(Smartwatch smartwatchInNeedOfHelp) {
-        // zaimplementować
+    public void sendPatrolsToRoutineIntervention(Smartwatch smartwatchInNeedOfHelp) {
+
+        Location destination = smartwatchInNeedOfHelp.getNavigation().getCurrentLocation();
+
+        Set<Smartwatch> patrolsToBeSent = chooseTheClosestPatrols(destination, 1).keySet();
+
+        for (Smartwatch smartwatch : patrolsToBeSent) {
+            sendGoingToInterventionToSmartwatch(smartwatch, destination);
+        }
+
     }
 
-    public void chooseAndSendPatrolsToPursuit(Smartwatch smartwatchInNeedOfHelp) {
-        // zaimplementować
+    public void sendPatrolsToPursuit(Smartwatch smartwatchInNeedOfHelp) {
+
+        Location destination = smartwatchInNeedOfHelp.getNavigation().getCurrentLocation();
+
+        Set<Smartwatch> patrolsToBeSent = chooseTheClosestPatrols(destination, 4).keySet();
+
+        for (Smartwatch smartwatch : patrolsToBeSent) {
+            sendGoingToInterventionToSmartwatch(smartwatch, destination);
+        }
+
     }
 
     public void sendParametersToSmartwatch(Smartwatch smartwatch, PatrolStatus patrolStatus, Location destinationLocation) {
@@ -65,4 +98,23 @@ public class MainAgent {
         smartwatch.getGun().setFired(false);
         // inne parametry, które będziemy chcieli przekazać
     }
+
+
+    private Map<Smartwatch, Double> chooseTheClosestPatrols(Location patrolInNeed, int numberOfHelpers) {
+
+        Map<Smartwatch, Double> patrolHelpers = new HashMap<>();
+
+        for (Smartwatch smartwatch : smartwatchList) {
+            double distance = headQuarter.calculateDistanceBetween(patrolInNeed, smartwatch.getNavigation().getCurrentLocation());
+            patrolHelpers.put(smartwatch, distance);
+        }
+
+        return patrolHelpers
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .limit(numberOfHelpers)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, HashMap::new));
+    }
+
 }

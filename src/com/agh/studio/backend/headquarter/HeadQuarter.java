@@ -10,7 +10,7 @@ public class HeadQuarter {
     public static final Location headQuarterLocation = new Location(50.067258, 19.979021);
 
     // basic version - computing distance in straight line
-    public static double calculateDistanceBetween(Location objective, Location support) {
+    public double calculateDistanceBetween(Location objective, Location support) {
 
         double objectiveLong = Math.toRadians(objective.getLongitude());
         double objectiveLat = Math.toRadians(objective.getLatitude());
@@ -31,12 +31,10 @@ public class HeadQuarter {
         return (c * earthRadius);
     }
 
-    public static Boolean isDay(SmartwatchReport smartwatchReport) {
+    public Boolean isDay(SmartwatchReport smartwatchReport) {
         int hour = smartwatchReport.getReportTime().getHour();
 
         return (hour <= 6 || hour >= 22);
     }
-
-
 
 }

@@ -24,7 +24,8 @@ public class Main {
 
         List<Smartwatch> smartwatchList = new ArrayList<>(List.of(smartwatch1, smartwatch2));
         SignalDatabase signalDatabase = new SignalDatabase();
-        MainAgent MC = new MainAgent(signalDatabase, smartwatchList);
+        HeadQuarter headQuarter = new HeadQuarter();
+        MainAgent MC = new MainAgent(headQuarter, signalDatabase, smartwatchList);
 
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 5; j++) {
