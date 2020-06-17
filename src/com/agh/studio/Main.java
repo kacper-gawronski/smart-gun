@@ -76,9 +76,6 @@ public class Main {
             if (i == 2) {
                 smartwatchList.get(generateRandomInt(0, 7)).getGun().setFired();
             }
-            if (i == 4) {
-                smartwatchList.get(generateRandomInt(0, 7)).setStatus(PatrolStatus.PURSUIT);
-            }
 
             MC.collectSignals();
 
