@@ -2,7 +2,6 @@ package com.agh.studio.backend.headquarter;
 
 import com.agh.studio.backend.navigation.Location;
 import com.agh.studio.backend.smartwatch.PatrolStatus;
-import com.agh.studio.backend.smartwatch.Smartwatch;
 import com.agh.studio.backend.smartwatch.SmartwatchReport;
 
 public class HeadQuarter {

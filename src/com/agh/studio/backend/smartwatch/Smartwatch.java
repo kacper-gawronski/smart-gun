@@ -35,6 +35,10 @@ public class Smartwatch {
         return status;
     }
 
+    public void setStatus(PatrolStatus status) {
+        this.status = status;
+    }
+
     public Gun getGun() {
         return gun;
     }
@@ -66,8 +70,8 @@ public class Smartwatch {
     }
 
     public void updateParameters(PatrolStatus patrolStatus, Location destinationLocation) {
-        this.status = patrolStatus;
-        this.navigation.setDestinationLocation(destinationLocation);
+        setStatus(patrolStatus);
+        getNavigation().setDestinationLocation(destinationLocation);
         // inne parametry, które będziemy chcieli przekazać
     }
 

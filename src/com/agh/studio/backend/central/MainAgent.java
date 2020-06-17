@@ -51,24 +51,36 @@ public class MainAgent {
             }
         }
 
-        if (smartwatchForHelp != null) {
+        if (!isEnoughGoingToIntervention(helpers, smartwatchReportList)) {
+            if (smartwatchForHelp != null) {
 
-            Location destination = smartwatchForHelp.getNavigation().getCurrentLocation();
+                Location destination = smartwatchForHelp.getNavigation().getCurrentLocation();
 
-            Set<Smartwatch> patrolsToBeSent =
-                    chooseTheClosestPatrols(availableSmartwatches, destination, helpers).keySet();
+                Set<Smartwatch> patrolsToBeSent =
+                        chooseTheClosestPatrols(availableSmartwatches, destination, helpers).keySet();
 
-            for (Smartwatch smartwatch : patrolsToBeSent) {
-                setGoingToIntervention(smartwatch, destination);
+                for (Smartwatch smartwatch : patrolsToBeSent) {
+                    setGoingToIntervention(smartwatch, destination);
+                }
             }
-
-            if (smartwatchForHelp.getStatus() == PatrolStatus.FIRE_INTERVENTION)
-                smartwatchForHelp.updateParameters(PatrolStatus.FIRE_INTERVENTION_WITH_SUPPORT, null);
-            else if (smartwatchForHelp.getStatus() == PatrolStatus.PURSUIT)
-                smartwatchForHelp.updateParameters(PatrolStatus.PURSUIT_WITH_SUPPORT, null);
-
         }
 
+    }
+
+    private boolean isEnoughGoingToIntervention(Integer howMany, List<SmartwatchReport> helpPatrols) {
+        int counter = 0;
+
+        for (SmartwatchReport smartwatch : helpPatrols) {
+            if (isGoingToIntervention(smartwatch.getSmartwatch())) {
+                counter++;
+            }
+        }
+
+        return counter >= howMany;
+    }
+
+    private boolean isGoingToIntervention(Smartwatch smartwatch) {
+        return (smartwatch.getStatus() == PatrolStatus.GOING_TO_INTERVENTION);
     }
 
     private void setGoingToIntervention(Smartwatch smartwatch, Location interventionLocation) {
@@ -90,14 +102,6 @@ public class MainAgent {
                 .sorted(Map.Entry.comparingByValue())
                 .limit(numberOfHelpers)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, HashMap::new));
-    }
-
-    // ta fukncja może być wgl nie potrzebna, ponieważ po interwencji patrol sam powinien zmienić status na OBSERVER
-    // lub funkcja może zostać ale wtedy Patrol musiałby przesłać jakieś info o zakończeniu interwencji więc najlepiej zostawić zmianę statusu w samym Patrolu(SW)
-    public void sendEndOfInterventionToSmartwatch(Smartwatch smartwatch) {
-        smartwatch.updateParameters(PatrolStatus.OBSERVER, null);
-        smartwatch.getGun().setFired(false);
-        // inne parametry, które będziemy chcieli przekazać
     }
 
 }

@@ -1,7 +1,5 @@
 package com.agh.studio.backend.navigation;
 
-import java.time.ZonedDateTime;
-
 public class Navigation {
 
     private Integer vehicleId;
