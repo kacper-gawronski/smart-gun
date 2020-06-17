@@ -2,6 +2,7 @@ package com.agh.studio.backend.central;
 
 import com.agh.studio.backend.headquarter.HeadQuarter;
 import com.agh.studio.backend.navigation.Location;
+import com.agh.studio.backend.reports.ReportGenerator;
 import com.agh.studio.backend.signalstorage.SignalDatabase;
 import com.agh.studio.backend.smartwatch.PatrolStatus;
 import com.agh.studio.backend.smartwatch.Smartwatch;
@@ -18,6 +19,8 @@ public class MainAgent {
 
     private List<Smartwatch> smartwatchList;
 
+    private ReportGenerator reportGenerator = new ReportGenerator();
+
     public MainAgent(HeadQuarter headQuarter, SignalDatabase signalDatabase, List<Smartwatch> smartwatchList) {
         this.headQuarter = headQuarter;
         this.signalDatabase = signalDatabase;
@@ -31,6 +34,8 @@ public class MainAgent {
 
     public void receiveAndProcessSignals() {
         List<SmartwatchReport> smartwatchReportList = signalDatabase.sendSignals();
+
+        reportGenerator.writeSmartwatchReportsToCsvFile(smartwatchReportList, smartwatchReportList.get(0).getReportTime());
 
         Smartwatch smartwatchForHelp = null;
         List<Smartwatch> availableSmartwatches = new ArrayList<>();

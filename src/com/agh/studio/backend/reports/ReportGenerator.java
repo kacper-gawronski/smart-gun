@@ -6,7 +6,7 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class ReportGenerator {
@@ -15,17 +15,11 @@ public class ReportGenerator {
                                                 "vehicleId", "isGunFired", "patrolLatitude", "patrolLongitude",
                                                 "patrolStatus"};
 
-    public List<SmartwatchReport> smartwatchReportList = new ArrayList<>();
-
-    public void writeSmartwatchReportsToCsvFile(List<SmartwatchReport> swReports) {
-        String filepath = "../new_file.csv";
-
-        File file = new File(filepath);
+    public void writeSmartwatchReportsToCsvFile(List<SmartwatchReport> swReports, ZonedDateTime dateTime) {
+        String filepath = "/smart-gun/reports/" + dateTime.toString() + ".csv";
 
         try {
-            FileWriter outputFile = new FileWriter(filepath);
-
-            CSVWriter writer = new CSVWriter(outputFile);
+            CSVWriter writer = new CSVWriter(new FileWriter(filepath));
             writer.writeNext(headerList);
 
             for (SmartwatchReport swReport : swReports) {
