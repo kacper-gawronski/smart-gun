@@ -71,10 +71,13 @@ public class Main {
         MainAgent MC = new MainAgent(headQuarter, signalDatabase, smartwatchList);
 
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
 
             if (i == 2) {
-                smartwatch8.getGun().setFired();
+                smartwatchList.get(generateRandomInt(0, 7)).getGun().setFired();
+            }
+            if (i == 4) {
+                smartwatchList.get(generateRandomInt(0, 7)).setStatus(PatrolStatus.PURSUIT);
             }
 
             MC.collectSignals();
