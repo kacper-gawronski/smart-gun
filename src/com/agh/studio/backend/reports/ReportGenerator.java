@@ -16,7 +16,16 @@ public class ReportGenerator {
                                                 "patrolStatus"};
 
     public void writeSmartwatchReportsToCsvFile(List<SmartwatchReport> swReports, ZonedDateTime dateTime) {
-        String filename = dateTime.toLocalDateTime().toString() + ".csv";
+        String filename = dateTime.toLocalDate().toString()
+                + "T"
+                + dateTime.getHour()
+                + "-"
+                + dateTime.getMinute()
+                + "-"
+                + dateTime.getSecond()
+                + "."
+                + dateTime.getNano()
+                + ".csv";
 
         File file = new File("reports", filename);
 
