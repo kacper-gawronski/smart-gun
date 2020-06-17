@@ -16,10 +16,12 @@ public class ReportGenerator {
                                                 "patrolStatus"};
 
     public void writeSmartwatchReportsToCsvFile(List<SmartwatchReport> swReports, ZonedDateTime dateTime) {
-        String filepath = "/smart-gun/reports/" + dateTime.toString() + ".csv";
+        String filename = dateTime.toLocalDateTime().toString() + ".csv";
+
+        File file = new File("reports", filename);
 
         try {
-            CSVWriter writer = new CSVWriter(new FileWriter(filepath));
+            CSVWriter writer = new CSVWriter(new FileWriter(file));
             writer.writeNext(headerList);
 
             for (SmartwatchReport swReport : swReports) {
